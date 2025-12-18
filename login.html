@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDHMxne5GmuGFxoxz71Mk1NlbTfJCqYLro",
+          authDomain: "my-project-c6453.firebaseapp.com",
+          projectId: "my-project-c6453",
+          storageBucket: "my-project-c6453.firebasestorage.app",
+          messagingSenderId: "90067329674",
+          appId: "1:90067329674:web:3d8cb062647b43c427c373",
+          measurementId: "G-E0MCYHYF4S"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+        
+        // Make auth and provider globally accessible
+        window.firebaseAuth = auth;
+        window.googleProvider = provider;
+    </script>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="glass-block auth-form">
+            <h1 class="auth-title">Welcome Back</h1>
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group" style="position: relative;">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span class="password-toggle" id="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">👁️</span>
+                </div>
+                <button type="submit" class="neon-button">Login</button>
+            </form>
+            <div class="divider">
+                <span>or</span>
+            </div>
+            <button id="google-login-btn" class="neon-button" style="background-color: #4285F4; margin-top: 15px;">
+                Sign in with Google
+            </button>
+            <p class="auth-switch">Don't have an account? <a href="signup.html">Sign up</a></p>
+        </div>
+    </div>
+    <script src="assets/auth.js"></script>
+    <script src="assets/liquid-effect.js"></script>
+    <script>
+        // Basic setup for auth page
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            const form = document.getElementById('login-form');
+            
+            // Password toggle functionality
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.textContent = type === 'password' ? '👁️' : '🔒';
+            });
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                loginWithEmail(email, password);
+            });
+            
+            // Google Login
+            document.getElementById('google-login-btn').addEventListener('click', () => {
+                loginWithGoogle();
+            });
+        });
+    </script>
+</body>
+</html>

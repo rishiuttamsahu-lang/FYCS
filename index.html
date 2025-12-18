@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="FYCS Notes">
+    <meta name="theme-color" content="#000000">
+    <title>FYCS Notes Hub</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub-II</span>
+        </div>
+        <div class="header-title">
+        
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-heading">FYCS Notes Hub</h1>
+            <p class="subtitle">All your notes, centralized and accessible.</p>
+            <div class="search-container" style="position: relative;">
+                <input type="search" id="search-bar" class="glass-block" placeholder="Search for notes, subjects...">
+                <div id="search-suggestions" class="glass-block" style="position: absolute; top: 100%; left: 0; right: 0; z-index: 100; display: none; max-height: 300px; overflow-y: auto; margin-top: 5px;"></div>
+            </div>
+            <div class="quick-chips">
+                <a href="#theory-subjects" class="chip">Theory</a>
+                <a href="#practical-notes" class="chip">Practicals</a>
+                <a href="#extra-Material" class="chip">Extra Material</a>
+                <a href="subjects/algo.html" class="chip">Algorithms</a>
+                <a href="subjects/cc.html" class="chip">Cloud Computing</a>
+            </div>
+        </section>
+
+        <section id="theory-subjects" class="subject-grid-section">
+            <h2>Theory Subjects</h2>
+            <div class="subject-grid" id="theory-cards-container">
+                <!-- Theory cards will be loaded here dynamically -->
+            </div>
+        </section>
+
+        <section id="practical-notes" class="subject-grid-section">
+            <h2>Practical Notes</h2>
+            <div class="subject-grid" id="practical-cards-container">
+                <!-- Practical cards will be loaded here dynamically -->
+            </div>
+        </section>
+
+        <section id="extra-material" class="subject-grid-section">
+            <h2>Extra Material</h2>
+            <div class="subject-grid" id="extra-material-container">
+                <!-- Extra Material cards will be loaded here dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+
+    <script src="assets/auth.js"></script>
+    <script src="assets/ui.js"></script>
+    <script src="assets/liquid-effect.js"></script>
+    <script>
+        // Initialize cards in localStorage if not already present
+        function initializeCards() {
+            // Always reset cards to default for debugging
+            // Check if cards already exist in localStorage
+            // if (!localStorage.getItem('cards')) {
+                // Default cards based on current index.html structure
+                const defaultCards = [
+                    { id: 1, title: 'OOP', url: 'subjects/oop.html', category: 'theory' },
+                    { id: 2, title: 'Co-Cirriculum', url: 'subjects/cc.html', category: 'theory' },
+                    { id: 3, title: 'Algorithms', url: 'subjects/algo.html', category: 'theory' },
+                    { id: 4, title: 'Maths Project', url: 'subjects/minor.html', category: 'theory' },
+                    { id: 5, title: 'MM-II', url: 'subjects/mm2.html', category: 'theory' },
+                    { id: 6, title: 'EVS', url: 'subjects/evs.html', category: 'theory' },
+                    { id: 7, title: 'HRM', url: 'subjects/hrm.html', category: 'theory' },
+                    { id: 8, title: 'Hindi', url: 'subjects/hindi.html', category: 'theory' },
+                    { id: 9, title: 'Python', url: 'practical-notes/python.html', category: 'practical' },
+                    { id: 10, title: 'OOP Practical', url: 'practical-notes/oop-practical.html', category: 'practical' },
+                    { id: 11, title: 'Algorithms Practical', url: 'practical-notes/algo-practical.html', category: 'practical' },
+                    { id: 12, title: 'Web Development', url: 'practical-notes/webdev.html', category: 'practical' },
+                    { id: 13, title: 'Extra Material', url: 'practical-notes/extra-material.html', category: 'extra' }
+                ];
+                
+                // Save to localStorage
+                localStorage.setItem('cards', JSON.stringify(defaultCards));
+            // } else {
+            //     // If cards exist, ensure the Extra Material card has the correct category
+            //     let cards = JSON.parse(localStorage.getItem('cards'));
+            //     let extraMaterialCard = cards.find(card => card.title === 'Extra Material');
+            //     if (extraMaterialCard && extraMaterialCard.category !== 'extra') {
+            //         extraMaterialCard.category = 'extra';
+            //         localStorage.setItem('cards', JSON.stringify(cards));
+            //     }
+            // }
+        }
+        
+        // Load cards from localStorage and display them
+        function loadCardsFromStorage() {
+            // Get cards from localStorage
+            const cardsJson = localStorage.getItem('cards');
+            if (!cardsJson) return;
+            
+            const cards = JSON.parse(cardsJson);
+            
+            // Debug: Log the cards to console
+            console.log('All cards:', cards);
+            
+            // Separate theory, practical, and extra Material cards
+            const theoryCards = cards.filter(card => card.category === 'theory');
+            const practicalCards = cards.filter(card => card.category === 'practical');
+            const extraMaterialCards = cards.filter(card => card.category === 'extra');
+            
+            // Debug: Log the separated cards
+            console.log('Theory cards:', theoryCards);
+            console.log('Practical cards:', practicalCards);
+            console.log('Extra Material cards:', extraMaterialCards);
+            
+            // Get container elements
+            const theoryContainer = document.getElementById('theory-cards-container');
+            const practicalContainer = document.getElementById('practical-cards-container');
+            const extraMaterialContainer = document.getElementById('extra-material-container');
+            
+            // Clear containers
+            if (theoryContainer) theoryContainer.innerHTML = '';
+            if (practicalContainer) practicalContainer.innerHTML = '';
+            if (extraMaterialContainer) extraMaterialContainer.innerHTML = '';
+            
+            // Add theory cards
+            if (theoryContainer) {
+                theoryCards.forEach(card => {
+                    const cardElement = document.createElement('a');
+                    cardElement.href = card.url;
+                    cardElement.className = 'subject-card glass-block';
+                    cardElement.innerHTML = `<h3>${card.title}</h3>`;
+                    theoryContainer.appendChild(cardElement);
+                });
+            }
+            
+            // Add practical cards
+            if (practicalContainer) {
+                practicalCards.forEach(card => {
+                    const cardElement = document.createElement('a');
+                    cardElement.href = card.url;
+                    cardElement.className = 'subject-card glass-block';
+                    cardElement.innerHTML = `<h3>${card.title}</h3>`;
+                    practicalContainer.appendChild(cardElement);
+                });
+            }
+            
+            // Add extra Material cards
+            if (extraMaterialContainer) {
+                extraMaterialCards.forEach(card => {
+                    const cardElement = document.createElement('a');
+                    cardElement.href = card.url;
+                    cardElement.className = 'subject-card glass-block';
+                    cardElement.innerHTML = `<h3>${card.title}</h3>`;
+                    extraMaterialContainer.appendChild(cardElement);
+                });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            enforceLogin();
+            updateUserUI(); 
+            
+            // Initialize cards
+            initializeCards();
+            
+            // Load cards from localStorage
+            loadCardsFromStorage();
+            
+            // Search suggestions functionality
+            const searchBar = document.getElementById('search-bar');
+            const suggestionsContainer = document.getElementById('search-suggestions');
+            
+            // Sample subjects data (in a real app, this would come from your data source)
+            const subjects = [
+                { name: 'OOP', type: 'Theory' },
+                { name: 'Cloud Computing', type: 'Theory' },
+                { name: 'Algorithms', type: 'Theory' },
+                { name: 'Maths Project', type: 'Theory' },
+                { name: 'MM-II', type: 'Theory' },
+                { name: 'EVS', type: 'Theory' },
+                { name: 'HRM', type: 'Theory' },
+                { name: 'Hindi', type: 'Theory' },
+                { name: 'Python', type: 'Practical' },
+                { name: 'OOP Practical', type: 'Practical' },
+                { name: 'Algorithms Practical', type: 'Practical' },
+                { name: 'Web Development', type: 'Practical' },
+                { name: 'Extra Material', type: 'Extra' }
+            ];
+            
+            // Get notes from localStorage
+            function getNotes() {
+                return JSON.parse(localStorage.getItem('notes')) || [];
+            }
+            
+            searchBar.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    suggestionsContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Filter subjects
+                const matchingSubjects = subjects.filter(subject => 
+                    subject.name.toLowerCase().includes(query)
+                );
+                
+                // Filter notes
+                const notes = getNotes();
+                const matchingNotes = notes.filter(note => 
+                    note.title.toLowerCase().includes(query) || 
+                    note.subject.toLowerCase().includes(query)
+                ).slice(0, 5); // Limit to 5 notes
+                
+                // Build suggestions HTML
+                let suggestionsHTML = '';
+                
+                if (matchingSubjects.length > 0) {
+                    suggestionsHTML += '<div class="search-suggestion-category">Subjects</div>';
+                    matchingSubjects.forEach(subject => {
+                        suggestionsHTML += `<div class="search-suggestion-item" data-type="subject" data-value="${subject.name}">${subject.name} (${subject.type})</div>`;
+                    });
+                }
+                
+                if (matchingNotes.length > 0) {
+                    suggestionsHTML += '<div class="search-suggestion-category">Notes</div>';
+                    matchingNotes.forEach(note => {
+                        suggestionsHTML += `<div class="search-suggestion-item" data-type="note" data-value="${note.title}" data-subject="${note.subject}">${note.title} (${note.subject})</div>`;
+                    });
+                }
+                
+                if (suggestionsHTML === '') {
+                    suggestionsHTML = '<div class="search-suggestion-item">No results found</div>';
+                }
+                
+                suggestionsContainer.innerHTML = suggestionsHTML;
+                suggestionsContainer.style.display = 'block';
+                
+                // Add click handlers to suggestions
+                document.querySelectorAll('.search-suggestion-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const type = this.getAttribute('data-type');
+                        const value = this.getAttribute('data-value');
+                        
+                        if (type === 'subject') {
+                            // Navigate to subject page
+                            const subjectSlug = value.toLowerCase().replace(/\s+/g, '-');
+                            const subject = subjects.find(s => s.name === value);
+                            if (subject && subject.type === 'Practical') {
+                                window.location.href = `practical-notes/${subjectSlug}.html`;
+                            } else if (subject && subject.type === 'Extra') {
+                                window.location.href = `practical-notes/${subjectSlug}.html`;
+                            } else {
+                                window.location.href = `subjects/${subjectSlug}.html`;
+                            }
+                        } else if (type === 'note') {
+                            // For notes, we could scroll to the notes section or filter
+                            searchBar.value = value;
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchBar.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                    suggestionsContainer.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

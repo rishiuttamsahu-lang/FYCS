@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Admin LocalStorage</title>
+</head>
+<body>
+    <h1>Admin LocalStorage Debug</h1>
+    <h2>Subjects</h2>
+    <pre id="subjects"></pre>
+    <h2>Categorized Subjects</h2>
+    <pre id="categorized"></pre>
+    <h2>All Cards</h2>
+    <pre id="cards"></pre>
+    <button onclick="clearData()">Clear All Data</button>
+    <script>
+        function clearData() {
+            localStorage.removeItem('subjects');
+            localStorage.removeItem('categorizedSubjects');
+            localStorage.removeItem('cards');
+            document.getElementById('subjects').textContent = 'Data cleared. Refresh the page.';
+            document.getElementById('categorized').textContent = '';
+            document.getElementById('cards').textContent = '';
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get subjects
+            const subjects = localStorage.getItem('subjects');
+            document.getElementById('subjects').textContent = subjects ? JSON.stringify(JSON.parse(subjects), null, 2) : 'No subjects found';
+            
+            // Get categorized subjects
+            const categorized = localStorage.getItem('categorizedSubjects');
+            document.getElementById('categorized').textContent = categorized ? JSON.stringify(JSON.parse(categorized), null, 2) : 'No categorized subjects found';
+            
+            // Get cards
+            const cards = localStorage.getItem('cards');
+            document.getElementById('cards').textContent = cards ? JSON.stringify(JSON.parse(cards), null, 2) : 'No cards found';
+        });
+    </script>
+</body>
+</html>

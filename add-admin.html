@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Admin User - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Add Admin User</h2>
+            <p>System Administration</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <h1 class="hero-heading">Add Admin User</h1>
+        <p class="subtitle">Adding admin123@gmail.com as an administrator</p>
+        
+        <div class="glass-block" style="padding: 30px; text-align: center;">
+            <h3>Processing...</h3>
+            <p>Please wait while we add the admin user to the system.</p>
+            <div class="loader" style="margin: 20px auto;"></div>
+            <div id="result" style="margin-top: 20px; font-weight: bold;"></div>
+        </div>
+    </main>
+    
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        // Run the admin user addition script
+        (function() {
+            // Check if localStorage is available
+            if (typeof(Storage) !== "undefined") {
+                // Get existing users or initialize empty array
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                // Check if admin123@gmail.com already exists
+                const userExists = users.some(user => user.email === 'admin123@gmail.com');
+                
+                if (!userExists) {
+                    // Add the new admin user
+                    const newUser = {
+                        email: 'admin123@gmail.com',
+                        password: 'admin123' // In a real app, this should be hashed
+                    };
+                    users.push(newUser);
+                    localStorage.setItem('users', JSON.stringify(users));
+                    document.getElementById('result').innerHTML = '<p style="color: green;">Admin user admin123@gmail.com added successfully!</p>';
+                } else {
+                    document.getElementById('result').innerHTML = '<p style="color: blue;">Admin user admin123@gmail.com already exists.</p>';
+                }
+                
+                // Also ensure isLoggedIn is set to false initially
+                if (!localStorage.getItem('isLoggedIn')) {
+                    localStorage.setItem('isLoggedIn', 'false');
+                }
+                
+                // Show all users for verification
+                console.log('Current users:', JSON.parse(localStorage.getItem('users')) || []);
+            } else {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Sorry, your browser does not support Web Storage.</p>';
+            }
+        })();
+    </script>
+</body>
+</html>

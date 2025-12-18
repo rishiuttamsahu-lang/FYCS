@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test File Cards - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test File Cards</h2>
+            <p>File Card Display Test</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="./index.html" class="circular-back-button" title="Back to Home">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading">Test File Cards</h1>
+        <p class="subtitle">Testing individual file card display.</p>
+        
+        <div class="glass-block manage-notes-container">
+            <h3>Sample File Cards</h3>
+            <div class="notes-container" id="files-container"></div>
+        </div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/notes.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            enforceLogin();
+            updateUserUI();
+            
+            // Create sample file data for testing
+            const sampleFiles = [
+                {
+                    id: '1-0',
+                    noteId: 1,
+                    name: 'lecture1.pdf',
+                    type: 'application/pdf',
+                    size: 1024000, // 1MB
+                    url: '#'
+                },
+                {
+                    id: '1-1',
+                    noteId: 1,
+                    name: 'diagram.png',
+                    type: 'image/png',
+                    size: 512000, // 500KB
+                    url: '#'
+                },
+                {
+                    id: '2-0',
+                    noteId: 2,
+                    name: 'assignment.docx',
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    size: 256000, // 250KB
+                    url: '#'
+                }
+            ];
+            
+            const filesContainer = document.getElementById('files-container');
+            
+            // Display sample file cards
+            sampleFiles.forEach(file => {
+                filesContainer.innerHTML += generateFileCard(file, file.noteId, true);
+            });
+        });
+    </script>
+</body>
+</html>

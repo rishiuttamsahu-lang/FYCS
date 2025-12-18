@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check LocalStorage</title>
+</head>
+<body>
+    <h1>LocalStorage Data</h1>
+    <pre id="output"></pre>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <script>
+        function clearStorage() {
+            localStorage.removeItem('cards');
+            document.getElementById('output').textContent = 'Storage cleared. Refresh the page.';
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = localStorage.getItem('cards');
+            if (cards) {
+                const parsed = JSON.parse(cards);
+                document.getElementById('output').textContent = JSON.stringify(parsed, null, 2);
+            } else {
+                document.getElementById('output').textContent = 'No cards found in localStorage';
+            }
+        });
+    </script>
+</body>
+</html>

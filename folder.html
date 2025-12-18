@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folder - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2 id="folder-name">Folder Name</h2>
+            <p id="folder-subject">Subject</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="#" id="back-button" class="circular-back-button" title="Back">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading" id="folder-title">Folder Title</h1>
+        <p class="subtitle">Find all files in this folder.</p>
+        <div class="search-container">
+            <input type="search" id="search-bar" class="glass-block" placeholder="Search files in this folder...">
+        </div>
+        <div class="notes-container" id="files-container"></div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/notes.js"></script>
+    <script src="./assets/script.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth(); // Initialize auth system
+            enforceLogin(); // Ensure user is logged in
+            updateUserUI(); // Update UI based on login status
+            
+            // Get folder ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const folderId = urlParams.get('id');
+            
+            if (folderId) {
+                loadFolderContent(folderId);
+            } else {
+                document.getElementById('files-container').innerHTML = '<p>Invalid folder.</p>';
+            }
+        });
+        
+        function loadFolderContent(folderId) {
+            // Load folder info
+            const folder = getFolderById(folderId);
+            if (!folder) {
+                document.getElementById('files-container').innerHTML = '<p>Folder not found.</p>';
+                return;
+            }
+            
+            // Update page title and header
+            document.title = `${folder.name} - FYCS Notes Hub`;
+            document.getElementById('folder-name').textContent = folder.name;
+            document.getElementById('folder-subject').textContent = folder.subject;
+            document.getElementById('folder-title').textContent = folder.name;
+            
+            // Set back button link
+            document.getElementById('back-button').href = `./practical-notes/${folder.subject}.html`;
+            
+            // Load notes for this folder
+            const notes = loadNotesByFolder(folderId);
+            const filesContainer = document.getElementById('files-container');
+            
+            // Collect all files from all notes
+            let allFiles = [];
+            notes.forEach(note => {
+                if (note.files) {
+                    note.files.forEach(file => {
+                        allFiles.push({
+                            file: file,
+                            noteId: note.id,
+                            noteTitle: note.title
+                        });
+                    });
+                }
+            });
+            
+            if (allFiles.length === 0) {
+                filesContainer.innerHTML = '<p>No files available in this folder yet.</p>';
+                return;
+            }
+            
+            // Render files
+            filesContainer.innerHTML = '';
+            allFiles.forEach(item => {
+                filesContainer.innerHTML += generateFileCard(item.file, item.noteId, isAdmin());
+            });
+            
+            // Setup search
+            const searchBar = document.getElementById('search-bar');
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredFiles = allFiles.filter(item =>
+                    item.file.name.toLowerCase().includes(searchTerm) ||
+                    item.noteTitle.toLowerCase().includes(searchTerm)
+                );
+                filesContainer.innerHTML = '';
+                if (filteredFiles.length === 0) {
+                    filesContainer.innerHTML = '<p>No matching files found.</p>';
+                } else {
+                    filteredFiles.forEach(item => {
+                        filesContainer.innerHTML += generateFileCard(item.file, item.noteId, isAdmin());
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

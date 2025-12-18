@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Theory Notes - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>OOP</h2>
+            <p>Theory Notes</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="../index.html" class="circular-back-button" title="Back to Home">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading">OOP Theory Notes</h1>
+        <p class="subtitle">Find all your OOP Theory folders here.</p>
+        <div class="search-container">
+            <input type="search" id="search-bar" class="glass-block" placeholder="Search folders for OOP Theory...">
+        </div>
+        <div class="notes-container" id="folders-container"></div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="../assets/auth.js"></script>
+    <script src="../assets/ui.js"></script>
+    <script src="../assets/notes.js"></script>
+    <script src="../assets/script.js"></script>
+    <script src="../assets/liquid-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth(); // Initialize auth system
+            enforceLogin(); // Ensure user is logged in
+            updateUserUI(); // Update UI based on login status
+            
+            // Load folders for this subject
+            const subject = 'oop';
+            loadFoldersForSubject(subject);
+        });
+        
+        function loadFoldersForSubject(subject) {
+            const foldersContainer = document.getElementById('folders-container');
+            const folders = getFoldersBySubject(subject);
+            
+            if (folders.length === 0) {
+                foldersContainer.innerHTML = '<p>No folders available for this subject yet.</p>';
+                return;
+            }
+            
+            foldersContainer.innerHTML = '';
+            folders.forEach(folder => {
+                foldersContainer.innerHTML += generateFolderCard(folder);
+            });
+            
+            // Setup search
+            const searchBar = document.getElementById('search-bar');
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredFolders = folders.filter(folder =>
+                    folder.name.toLowerCase().includes(searchTerm)
+                );
+                foldersContainer.innerHTML = '';
+                if (filteredFolders.length === 0) {
+                    foldersContainer.innerHTML = '<p>No matching folders found.</p>';
+                } else {
+                    filteredFolders.forEach(folder => {
+                        foldersContainer.innerHTML += generateFolderCard(folder);
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

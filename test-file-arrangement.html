@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test File Arrangement - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test File Arrangement</h2>
+            <p>File Arrangement Feature Test</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="./index.html" class="circular-back-button" title="Back to Home">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading">Test File Arrangement</h1>
+        <p class="subtitle">Testing the file arrangement functionality.</p>
+        
+        <div class="glass-block upload-form-container">
+            <h3>File Arrangement Demo</h3>
+            <form id="test-form">
+                <div class="input-group">
+                    <label for="test-files">Select Files:</label>
+                    <div class="drop-zone" id="drop-zone">
+                        <div class="drop-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </div>
+                        <div class="drop-content">
+                            <p class="primary-text">Drag & Drop your files here</p>
+                            <p class="secondary-text">or click to browse (PDF, DOCX, Images)</p>
+                        </div>
+                        <input type="file" id="test-files" accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" multiple style="display: none;">
+                    </div>
+                    <div class="file-list" id="file-list" style="margin-top: 10px;"></div>
+                </div>
+                <button type="submit" class="neon-button">Submit Files</button>
+            </form>
+        </div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/admin.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            enforceLogin();
+            updateUserUI();
+            
+            // Setup file arrangement functionality
+            setupFilePreview();
+            setupDragAndDrop();
+            
+            // Form submission
+            document.getElementById('test-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const files = document.getElementById('test-files').files;
+                if (files.length > 0) {
+                    alert(`Successfully arranged ${files.length} files!\nFirst file: ${files[0].name}\nLast file: ${files[files.length - 1].name}`);
+                } else {
+                    alert('Please select at least one file.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

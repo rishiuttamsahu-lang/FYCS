@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="FYCS Admin">
+    <meta name="theme-color" content="#000000">
+    <title>Admin Panel - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="sidebar glass-block">
+            <h1 class="sidebar-title">Admin</h1>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#upload" class="nav-link">Upload Notes</a>
+                <a href="#folders" class="nav-link">Manage Folders</a>
+                <a href="#manage" class="nav-link">Manage Notes</a>
+                <a href="#subjects" class="nav-link">Manage Subjects</a>
+                <a href="#cards" class="nav-link">Card Manager</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </nav>        </aside>
+
+        <main class="admin-main">
+            <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+                <a href="index.html" class="circular-back-button" title="Back to Home">←</a>
+            </div>
+            <section id="dashboard" class="admin-section">
+                <h2 class="admin-heading">Admin Dashboard</h2>
+                
+                <!-- Welcome Message -->
+                <div class="glass-block welcome-banner">
+                    <h3>Welcome Back, Admin!</h3>
+                    <p>Here's what's happening with your notes hub today.</p>
+                </div>
+                
+                <!-- Stats Grid -->
+                <div class="dashboard-stats">
+                    <div class="stats-card glass-block">
+                        <div class="stat-icon">📝</div>
+                        <h3>Total Notes</h3>
+                        <div class="stat-number" id="total-notes">0</div>
+                    </div>
+                    <div class="stats-card glass-block">
+                        <div class="stat-icon">📚</div>
+                        <h3>Subjects</h3>
+                        <div class="stat-number" id="total-subjects">0</div>
+                    </div>
+                    <div class="stats-card glass-block">
+                        <div class="stat-icon">📅</div>
+                        <h3>Uploads This Month</h3>
+                        <div class="stat-number" id="uploads-month">0</div>
+                    </div>
+                    <div class="stats-card glass-block">
+                        <div class="stat-icon">🔥</div>
+                        <h3>Most Active Subject</h3>
+                        <div class="stat-number" id="most-active-subject">-</div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions glass-block">
+                    <h3>Quick Actions</h3>
+                    <div class="actions-grid">
+                        <a href="#upload" class="action-card">
+                            <div class="action-icon">⬆️</div>
+                            <h4>Upload Notes</h4>
+                            <p>Add new study materials</p>
+                        </a>
+                        <a href="#folders" class="action-card">
+                            <div class="action-icon">📁</div>
+                            <h4>Manage Folders</h4>
+                            <p>Organize content</p>
+                        </a>
+                        <a href="#manage" class="action-card">
+                            <div class="action-icon">⚙️</div>
+                            <h4>Manage Notes</h4>
+                            <p>Edit existing content</p>
+                        </a>
+                        <a href="#subjects" class="action-card">
+                            <div class="action-icon">📖</div>
+                            <h4>Manage Subjects</h4>
+                            <p>Add or edit subjects</p>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-uploads glass-block">
+                    <h3>Recent Uploads</h3>
+                    <div id="recent-uploads-list"></div>
+                </div>
+                
+                <!-- System Info -->
+                <div class="system-info glass-block">
+                    <h3>System Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Storage Used:</strong>
+                            <span id="storage-used">0 MB</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Total Folders:</strong>
+                            <span id="total-folders">0</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>File Types:</strong>
+                            <span id="file-types">PDF, DOCX, Images</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Last Login:</strong>
+                            <span id="last-login">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="upload" class="admin-section" style="display: none;">
+                <h2 class="admin-heading">Upload Notes</h2>
+                <div class="loader" id="upload-loader"></div>
+                <div class="glass-block upload-form-container">
+                    <form id="upload-note-form">
+                        <div class="input-group">
+                            <label for="subject-select">Subject:</label>
+                            <select id="subject-select" required>
+                                <option value="">Select a Subject</option>
+                                <optgroup label="Theory">
+                                    <option value="oop">OOP</option>
+                                    <option value="cc">Cloud Computing</option>
+                                    <option value="algo">Algorithms</option>
+                                    <option value="minor">Maths Project</option>
+                                    <option value="mm2">MM-II</option>
+                                    <option value="evs">EVS</option>
+                                    <option value="hrm">HRM</option>
+                                    <option value="hindi">Hindi</option>
+                                </optgroup>
+                                <optgroup label="Practical">
+                                    <option value="python">Python</option>
+                                    <option value="oop-practical">OOP Practical</option>
+                                    <option value="algo-practical">Algorithms Practical</option>
+                                    <option value="webdev">Web Development</option>
+                                </optgroup>
+                                <optgroup label="Extra Material">
+                                    <option value="extra-material">Extra Material</option>
+                                </optgroup>
+                            </select>
+                            <div class="error-message" id="subject-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="note-folder">Folder:</label>
+                            <select id="note-folder" required>
+                                <option value="">Select a Folder</option>
+                                <!-- Folders will be populated dynamically -->
+                            </select>
+                            <div class="error-message" id="folder-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="note-title">Title:</label>
+                            <input type="text" id="note-title" placeholder="Enter note title" required>
+                            <div class="error-message" id="title-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="note-files">Upload Files:</label>
+                            <div class="drop-zone" id="drop-zone">
+                                <div class="drop-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                </div>
+                                <div class="drop-content">
+                                    <p class="primary-text">Drag & Drop your files here</p>
+                                    <p class="secondary-text">or click to browse (PDF, DOCX, Images)</p>
+                                </div>
+                                <input type="file" id="note-files" accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" required multiple style="display: none;">
+                            </div>
+                            <div class="file-list" id="file-list" style="margin-top: 10px;"></div>
+                            <div class="error-message" id="file-error"></div>
+                        </div>
+                        <div class="preview-container" id="preview-container" style="display: none;">
+                            <h4>File Preview:</h4>
+                            <iframe id="pdf-preview" frameborder="0"></iframe>
+                        </div>
+                        <button type="submit" class="neon-button">
+                            <span class="button-text">Upload Note</span>
+                            <div class="loader loader-inline" id="upload-button-loader" style="display: none;"></div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="folders" class="admin-section" style="display: none;">
+                <h2 class="admin-heading">Manage Folders</h2>
+                <div class="loader" id="folders-loader"></div>
+                <div class="glass-block upload-form-container">
+                    <h3>Create New Folder</h3>
+                    <form id="add-folder-form">
+                        <div class="input-group">
+                            <label for="folder-subject">Subject:</label>
+                            <select id="folder-subject" required>
+                                <option value="">Select a Subject</option>
+                                <option value="oop">OOP</option>
+                                <option value="cc">Cloud Computing</option>
+                                <option value="algo">Algorithms</option>
+                                <option value="minor">Maths Project</option>
+                                <option value="mm2">MM-II</option>
+                                <option value="evs">EVS</option>
+                                <option value="hrm">HRM</option>
+                                <option value="hindi">Hindi</option>
+                                <option value="python">Python</option>
+                                <option value="oop-practical">OOP Practical</option>
+                                <option value="algo-practical">Algorithms Practical</option>
+                                <option value="webdev">Web Development</option>
+                                <option value="extra-material">Extra Material</option>
+                            </select>
+                            <div class="error-message" id="folder-subject-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="folder-name">Folder Name:</label>
+                            <input type="text" id="folder-name" placeholder="Enter folder name (e.g. Practical 1, Lecture 1)" required>
+                            <div class="error-message" id="folder-name-error"></div>
+                        </div>
+                        <button type="submit" class="neon-button">
+                            <span class="button-text">Create Folder</span>
+                            <div class="loader loader-inline" id="add-folder-loader" style="display: none;"></div>
+                        </button>
+                        <div class="success-message" id="folder-action-message"></div>
+                    </form>
+                </div>
+
+                <div class="glass-block manage-notes-container">
+                    <h3>Existing Folders</h3>
+                    <table class="notes-table">
+                        <thead>
+                            <tr>
+                                <th>Folder Name</th>
+                                <th>Subject</th>
+                                <th>Notes Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="folders-table-body">
+                            <!-- Folders will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="manage" class="admin-section" style="display: none;">
+                <h2 class="admin-heading">Manage Notes</h2>
+                <div class="loader" id="manage-loader"></div>
+                <div class="glass-block manage-notes-container">
+                    <div class="search-filter-container">
+                        <input type="text" id="search-input" placeholder="Search by title or subject">
+                        <select id="sort-by">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                        <select id="filter-subject">
+                            <option value="all">All Subjects</option>
+                            <option value="oop">OOP</option>
+                            <option value="cc">Cloud Computing</option>
+                            <option value="algo">Algorithms</option>
+                            <option value="minor">Maths Project</option>
+                            <option value="mm2">MM-II</option>
+                            <option value="evs">EVS</option>
+                            <option value="hrm">HRM</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="python">Python</option>
+                            <option value="oop-practical">OOP Practical</option>
+                            <option value="algo-practical">Algorithms Practical</option>
+                            <option value="webdev">Web Development</option>
+                            <option value="extra-material">Extra Material</option>
+                        </select>
+                    </div>
+                    <table class="notes-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="manage-notes-table-body">
+                            <!-- Notes will be loaded here -->
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="pagination">
+                        <button id="prev-page">Previous</button>
+                        <span class="current-page" id="current-page">1</span>
+                        <button id="next-page">Next</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="subjects" class="admin-section" style="display: none;">
+                <h2 class="admin-heading">Manage Subjects</h2>
+                <div class="loader" id="subjects-loader"></div>
+                <div class="glass-block upload-form-container">
+                    <h3>Add New Subject</h3>
+                    <form id="add-subject-form">
+                        <div class="input-group">
+                            <label for="subject-name">Subject Name:</label>
+                            <input type="text" id="subject-name" placeholder="Enter subject name" required>
+                            <div class="error-message" id="subject-name-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="subject-category">Category:</label>
+                            <select id="subject-category" required>
+                                <option value="theory">Theory</option>
+                                <option value="practical">Practical</option>
+                                <option value="extra">Extra</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="neon-button">
+                            <span class="button-text">Add Subject</span>
+                            <div class="loader loader-inline" id="add-subject-loader" style="display: none;"></div>
+                        </button>
+                    </form>
+                    <div id="subject-action-message"></div>
+                </div>
+                
+                <div class="glass-block manage-notes-container">
+                    <h3>Existing Subjects</h3>
+                    <table class="notes-table">
+                        <thead>
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjects-table-body">
+                            <!-- Subjects will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="cards" class="admin-section" style="display: none;">
+                <h2 class="admin-heading">Card Manager</h2>
+                <div class="loader" id="cards-loader"></div>
+                <div class="glass-block upload-form-container">
+                    <h3>Add New Card</h3>
+                    <form id="add-card-form">
+                        <div class="input-group">
+                            <label for="card-title">Card Title:</label>
+                            <input type="text" id="card-title" placeholder="Enter card title" required>
+                            <div class="error-message" id="card-title-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="card-url">Card URL:</label>
+                            <input type="text" id="card-url" placeholder="Enter card URL" required>
+                            <div class="error-message" id="card-url-error"></div>
+                        </div>
+                        <div class="input-group">
+                            <label for="card-category">Category:</label>
+                            <select id="card-category" required>
+                                <option value="theory">Theory</option>
+                                <option value="practical">Practical</option>
+                                <option value="extra">Extra</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="neon-button">
+                            <span class="button-text">Add Card</span>
+                            <div class="loader loader-inline" id="add-card-loader" style="display: none;"></div>
+                        </button>
+                        <div class="success-message" id="card-action-message"></div>
+                    </form>
+                </div>
+
+                <div class="glass-block manage-notes-container">
+                    <h3>Existing Cards</h3>
+                    <table class="notes-table">
+                        <thead>
+                            <tr>
+                                <th>Card Title</th>
+                                <th>URL</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cards-table-body">
+                            <!-- Cards will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>            </section>
+        </main>
+    </div>
+
+    <script src="assets/auth.js"></script>
+    <script src="assets/notes.js"></script>
+    <script src="assets/liquid-effect.js"></script>
+    <script src="assets/admin.js"></script>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            enforceAdmin(); // Restrict access to admin only
+
+            const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+            const sections = document.querySelectorAll('.admin-section');
+            const uploadForm = document.getElementById('upload-note-form');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.hash) {
+                        e.preventDefault();
+                        const targetId = link.hash.substring(1);
+                        
+                        sections.forEach(section => {
+                            section.style.display = section.id === targetId ? 'block' : 'none';
+                        });
+
+                        navLinks.forEach(nav => nav.classList.remove('active'));
+                        link.classList.add('active');
+
+                        if (targetId === 'manage') {
+                            loadManageNotesTable(); // Function to load notes in the manage section
+                        } else if (targetId === 'subjects') {
+                            loadSubjectsTable(); // Function to load subjects in the subjects section
+                        } else if (targetId === 'folders') {
+                            loadFoldersTable(); // Function to load folders in the folders section
+                        } else if (targetId === 'dashboard') {
+                            updateDashboardStats(); // Update dashboard stats when switching to dashboard
+                        }
+                    }
+                });
+            });
+
+            // Initialize dashboard stats on page load
+            updateDashboardStats();
+            
+            // Setup quick action card navigation
+            setupQuickActions();            // Update folder dropdown when subject changes
+            const subjectSelect = document.getElementById('subject-select');
+            const folderSelect = document.getElementById('note-folder');
+            
+            if (subjectSelect && folderSelect) {
+                subjectSelect.addEventListener('change', function() {
+                    const selectedSubject = this.value;
+                    updateFolderDropdown(selectedSubject);
+                });
+            }
+
+            if (uploadForm) {
+                uploadForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const subject = document.getElementById('subject-select').value;
+                    const folderId = document.getElementById('note-folder').value;
+                    const title = document.getElementById('note-title').value;
+                    const files = document.getElementById('note-files').files;
+
+                    if (subject && folderId && title && files.length > 0) {
+                        try {
+                            showLoader('upload-button-loader');
+                            await createNote(subject, folderId, title, files);
+                            hideLoader('upload-button-loader');
+                            alert('Note uploaded successfully!');
+                            uploadForm.reset(); // Clear the form
+                        
+                            // Reset drop zone UI
+                            const dropZone = document.getElementById('drop-zone');
+                            const dropIcon = dropZone.querySelector('.drop-icon');
+                            const dropContent = dropZone.querySelector('.drop-content');
+                            const fileList = document.getElementById('file-list');
+                        
+                            dropZone.classList.remove('has-file');
+                            dropIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>`;
+                            dropContent.innerHTML = `<p class="primary-text">Drag & Drop your files here</p><p class="secondary-text">or click to browse (PDF, DOCX, Images)</p>`;
+                            fileList.innerHTML = '';
+                        } catch (error) {
+                            hideLoader('upload-button-loader');
+                            alert('Error uploading note: ' + error.message);
+                        }
+                    } else {
+                        alert('Please fill all fields and select at least one file.');
+                    }
+                });
+            }
+        });
+        
+        // Update folder dropdown based on selected subject
+        function updateFolderDropdown(subject) {
+            const folderSelect = document.getElementById('note-folder');
+            if (!folderSelect) return;
+            
+            // Clear existing options except the first one
+            while (folderSelect.children.length > 1) {
+                folderSelect.removeChild(folderSelect.lastChild);
+            }
+            
+            // Get folders for the selected subject
+            const folders = JSON.parse(localStorage.getItem('folders')) || [];
+            const subjectFolders = folders.filter(folder => folder.subject === subject);
+            
+            // Add folders to dropdown
+            subjectFolders.forEach(folder => {
+                const option = document.createElement('option');
+                option.value = folder.id;
+                option.textContent = folder.name;
+                folderSelect.appendChild(option);
+            });
+            
+            // Disable dropdown if no folders exist
+            folderSelect.disabled = subjectFolders.length === 0;
+            if (subjectFolders.length === 0) {
+                const option = document.createElement('option');
+                option.textContent = 'No folders available - Create one first';
+                folderSelect.appendChild(option);
+            }
+        }
+    </script>
+</body>
+</html>

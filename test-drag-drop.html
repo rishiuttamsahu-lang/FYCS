@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Drag and Drop - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test Drag and Drop</h2>
+            <p>Multiple File Handling</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <h1 class="hero-heading">Test Drag and Drop</h1>
+        <p class="subtitle">Testing multiple file drag and drop functionality</p>
+        
+        <div class="glass-block upload-form-container">
+            <h3>Drag and Drop Test</h3>
+            <form id="test-form">
+                <div class="input-group">
+                    <label for="test-files">Select Files:</label>
+                    <div class="drop-zone" id="drop-zone">
+                        <div class="drop-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </div>
+                        <div class="drop-content">
+                            <p class="primary-text">Drag & Drop your files here</p>
+                            <p class="secondary-text">or click to browse (PDF, DOCX, Images)</p>
+                        </div>
+                        <input type="file" id="test-files" accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" multiple style="display: none;">
+                    </div>
+                    <div class="file-list" id="file-list" style="margin-top: 10px;"></div>
+                </div>
+                <button type="submit" class="neon-button">Submit Files</button>
+            </form>
+            
+            <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <h4>Instructions:</h4>
+                <ol>
+                    <li>Select one or more files using the file browser</li>
+                    <li>Drag and drop additional files onto the drop zone</li>
+                    <li>Verify that all files are accumulated (not replaced)</li>
+                    <li>You can also drag and reorder files in the list</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/admin.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            // Setup file arrangement functionality
+            setupFilePreview();
+            setupDragAndDrop();
+            
+            // Form submission
+            document.getElementById('test-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const files = document.getElementById('test-files').files;
+                if (files.length > 0) {
+                    let fileNames = [];
+                    for (let i = 0; i < files.length; i++) {
+                        fileNames.push(files[i].name);
+                    }
+                    alert(`Successfully accumulated ${files.length} files!\nFiles: ${fileNames.join(', ')}`);
+                } else {
+                    alert('Please select at least one file.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

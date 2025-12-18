@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRM Notes - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>HRM</h2>
+            <p>Theory Notes</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="../index.html" class="circular-back-button" title="Back to Home">←</a>
+        <main class="container">
+            <h1 class="hero-heading">HRM Notes</h1>
+            <p class="subtitle">Find all your Human Resource Management theory notes here.</p>
+            <div class="search-container">
+                <input type="search" id="search-bar" class="glass-block" placeholder="Search notes for HRM...">
+            </div>
+            <div class="notes-container"></div>
+        </main>
+        <footer class="page-footer">
+            <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+        </footer>
+        <script src="../assets/auth.js"></script>
+        <script src="../assets/ui.js"></script>
+        <script src="../assets/notes.js"></script>
+        <script src="../assets/script.js"></script>
+        <script src="../assets/liquid-effect.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        initializeAuth(); // Initialize auth system
+        enforceLogin(); // Ensure user is logged in
+        updateUserUI(); // Update UI based on login status
+        });
+        </script>
+</body>
+
+</html>

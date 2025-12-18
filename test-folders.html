@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Folders - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test Folders</h2>
+            <p>Folder Management Test</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="./index.html" class="circular-back-button" title="Back to Home">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading">Test Folders</h1>
+        <p class="subtitle">Testing folder creation and management.</p>
+        
+        <div class="glass-block upload-form-container">
+            <h3>Create Test Folder</h3>
+            <div class="input-group">
+                <label for="subject">Subject:</label>
+                <select id="subject">
+                    <option value="webdev">Web Development</option>
+                    <option value="python">Python</option>
+                    <option value="oop">OOP</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="folder-name">Folder Name:</label>
+                <input type="text" id="folder-name" placeholder="Enter folder name">
+            </div>
+            <button class="neon-button" onclick="createTestFolder()">Create Folder</button>
+        </div>
+        
+        <div class="glass-block manage-notes-container">
+            <h3>Existing Folders</h3>
+            <div id="folders-list"></div>
+        </div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/notes.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            enforceLogin();
+            updateUserUI();
+            loadFoldersList();
+        });
+        
+        function createTestFolder() {
+            const subject = document.getElementById('subject').value;
+            const folderName = document.getElementById('folder-name').value.trim();
+            
+            if (!folderName) {
+                alert('Please enter a folder name');
+                return;
+            }
+            
+            try {
+                const newFolder = createFolder(subject, folderName);
+                console.log('Created folder:', newFolder);
+                alert('Folder created successfully!');
+                document.getElementById('folder-name').value = '';
+                loadFoldersList();
+            } catch (error) {
+                console.error('Error creating folder:', error);
+                alert('Error creating folder: ' + error.message);
+            }
+        }
+        
+        function loadFoldersList() {
+            const foldersList = document.getElementById('folders-list');
+            const folders = JSON.parse(localStorage.getItem('folders')) || [];
+            
+            if (folders.length === 0) {
+                foldersList.innerHTML = '<p>No folders found.</p>';
+                return;
+            }
+            
+            let html = '<ul>';
+            folders.forEach(folder => {
+                html += `<li>${folder.name} (${folder.subject}) - ID: ${folder.id}</li>`;
+            });
+            html += '</ul>';
+            
+            foldersList.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug LocalStorage</title>
+</head>
+<body>
+    <h1>LocalStorage Debug</h1>
+    <pre id="output"></pre>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = localStorage.getItem('cards');
+            document.getElementById('output').textContent = cards ? JSON.stringify(JSON.parse(cards), null, 2) : 'No cards found';
+        });
+    </script>
+</body>
+</html>

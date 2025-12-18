@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Effect Demo - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Liquid Effect Demo</h2>
+            <p>Transparent Liquid Animation</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <a href="index.html" class="neon-button auth-button">Back to Home</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-heading">Liquid Effect Demo</h1>
+            <p class="subtitle">This page demonstrates the transparent liquid effect integrated into the website.</p>
+            <div class="search-container">
+                <input type="search" id="search-bar" class="glass-block" placeholder="Search for demos...">
+            </div>
+            <div class="quick-chips">
+                <a href="#" class="chip">Features</a>
+                <a href="#" class="chip">Customization</a>
+                <a href="#" class="chip">Performance</a>
+            </div>
+        </section>
+
+        <section class="subject-grid-section">
+            <h2>How It Works</h2>
+            <div class="subject-grid">
+                <div class="subject-card glass-block">
+                    <h3>WebGL Technology</h3>
+                    <p>Uses Three.js for smooth WebGL rendering</p>
+                </div>
+                <div class="subject-card glass-block">
+                    <h3>Dynamic Distortion</h3>
+                    <p>Real-time liquid-like distortions</p>
+                </div>
+                <div class="subject-card glass-block">
+                    <h3>Transparent Overlay</h3>
+                    <p>Non-intrusive background effect</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+
+    <script src="assets/liquid-effect.js"></script>
+    <script>
+        // Simple navigation for demo purposes
+        document.addEventListener('DOMContentLoaded', () => {
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert(`This is a demo of the liquid effect. In a full implementation, this would navigate to the ${chip.textContent} section.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

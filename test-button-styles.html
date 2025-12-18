@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Button Styles - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test Button Styles</h2>
+            <p>Button Style Verification</p>
+        </div>
+        <div class="user-area" id="user-area">
+            <!-- Dynamic content will be injected here by ui.js -->
+        </div>
+    </header>
+    <div class="back-button-container" style="padding: 0 20px; margin-bottom: 20px;">
+        <a href="./index.html" class="circular-back-button" title="Back to Home">←</a>
+    </div>
+    <main class="container">
+        <h1 class="hero-heading">Test Button Styles</h1>
+        <p class="subtitle">Verifying the new file card button styles.</p>
+        
+        <div class="glass-block manage-notes-container">
+            <h3>File Card Buttons</h3>
+            <div class="notes-container">
+                <div class="note-card glass-block">
+                    <h3>📚 sample.pdf</h3>
+                    <p class="note-date">1.2 MB</p>
+                    <p class="note-subject">From Note ID: 123</p>
+                    <div class="card-actions">
+                        <button class="file-card-button view-file-button">View File</button>
+                        <button class="file-card-button delete-file-button">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="note-card glass-block">
+                    <h3>🖼️ diagram.png</h3>
+                    <p class="note-date">450 KB</p>
+                    <p class="note-subject">From Note ID: 124</p>
+                    <div class="card-actions">
+                        <button class="file-card-button view-file-button">View File</button>
+                        <button class="file-card-button delete-file-button">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="note-card glass-block">
+                    <h3>📝 assignment.docx</h3>
+                    <p class="note-date">250 KB</p>
+                    <p class="note-subject">From Note ID: 125</p>
+                    <div class="card-actions">
+                        <button class="file-card-button view-file-button">View File</button>
+                        <button class="file-card-button delete-file-button">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    <script src="./assets/auth.js"></script>
+    <script src="./assets/ui.js"></script>
+    <script src="./assets/liquid-effect.js"></script>
+</body>
+</html>

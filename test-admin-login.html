@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Login - FYCS Notes Hub</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/mobile.css">
+</head>
+<body>
+    <header class="glass-block page-header">
+        <div class="logo-container">
+            <span class="logo-placeholder">FYCS Hub</span>
+        </div>
+        <div class="header-title">
+            <h2>Test Admin Login</h2>
+            <p>Verify Admin Access</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <h1 class="hero-heading">Test Admin Login</h1>
+        <p class="subtitle">Testing admin123@gmail.com credentials</p>
+        
+        <div class="glass-block" style="padding: 30px;">
+            <h3>Login Test</h3>
+            <div id="login-result" style="margin: 20px 0; font-weight: bold;"></div>
+            
+            <h3>Admin Status Test</h3>
+            <div id="admin-result" style="margin: 20px 0; font-weight: bold;"></div>
+            
+            <button id="test-btn" class="neon-button" style="margin-top: 20px;">Run Tests</button>
+            <a href="admin.html" class="neon-button" style="margin-top: 20px; display: inline-block; text-decoration: none;">Go to Admin Panel</a>
+        </div>
+    </main>
+    
+    <footer class="page-footer">
+        <p>&copy; 2025 FYCS Notes Hub. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="./assets/auth.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('test-btn').addEventListener('click', function() {
+                // Initialize auth system
+                initializeAuth();
+                
+                // Test login with admin credentials
+                try {
+                    loginWithEmail('admin123@gmail.com', 'admin123');
+                    
+                    // Check if login was successful
+                    if (checkLoginStatus()) {
+                        document.getElementById('login-result').innerHTML = '<p style="color: green;">✓ Login successful!</p>';
+                        
+                        // Check if user is admin
+                        if (isAdmin()) {
+                            document.getElementById('admin-result').innerHTML = '<p style="color: green;">✓ User is correctly identified as admin!</p>';
+                        } else {
+                            document.getElementById('admin-result').innerHTML = '<p style="color: red;">✗ User is NOT identified as admin!</p>';
+                        }
+                    } else {
+                        document.getElementById('login-result').innerHTML = '<p style="color: red;">✗ Login failed!</p>';
+                        document.getElementById('admin-result').innerHTML = '<p style="color: gray;">Unable to test admin status - login failed</p>';
+                    }
+                } catch (error) {
+                    document.getElementById('login-result').innerHTML = '<p style="color: red;">✗ Error during login: ' + error.message + '</p>';
+                    document.getElementById('admin-result').innerHTML = '<p style="color: gray;">Unable to test admin status due to login error</p>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
